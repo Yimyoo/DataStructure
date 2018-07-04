@@ -1,6 +1,8 @@
 /** Class that determines whether or not a year is a leap year.
  *  @author YOUR NAME HERE
  */
+import java.lang.Boolean;
+
 public class LeapYear {
 
     /** Calls isLeapYear to print correct statement.
@@ -14,6 +16,11 @@ public class LeapYear {
         }
     }
 
+    public static boolean isLeapYear(int year) {
+	if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)) return true;
+	else return false;
+    }
+    
     /** Must be provided an integer as a command line argument ARGS. */
     public static void main(String[] args) {
         if (args.length < 1) {
