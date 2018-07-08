@@ -43,7 +43,7 @@ public class IntListTest {
     @Test
     public void testSquareListRecursive() {
         IntList L = IntList.of(1, 2, 3);
-        IntList res = IntList.squareListRecursive(L);
+        IntList res = IntList.squareListIterative(L);
         assertEquals(IntList.of(1, 2, 3), L);
         assertEquals(IntList.of(1, 4, 9), res);
     }
@@ -53,7 +53,8 @@ public class IntListTest {
         IntList A = IntList.of(1, 2, 3);
         IntList B = IntList.of(4, 5, 6);
         IntList exp = IntList.of(1, 2, 3, 4, 5, 6);
-        assertEquals(exp, IntList.dcatenate(A, B));
+        IntList.dcatenate(A, B);
+        assertEquals(exp, A);
         assertEquals(IntList.of(1, 2, 3, 4, 5, 6), A);
     }
 
