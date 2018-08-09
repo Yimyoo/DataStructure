@@ -1,4 +1,4 @@
-public class ArrayDeque<Blom> {
+public class ArrayDeque<Blom> implements Deque<Blom> {
     private Blom[] items;
     private int size;
     private int nextFirst;
@@ -13,6 +13,7 @@ public class ArrayDeque<Blom> {
     }
 
     /** Add an item to the first of the list. */
+    @Override
     public void addFirst(Blom item) {
         if (size == items.length) { // If the list is full
             resize(size + 1);
@@ -28,6 +29,7 @@ public class ArrayDeque<Blom> {
     }
 
     /** Add an item to the back of the list. */
+    @Override
     public void addLast(Blom item) {
         if (size == items.length) { // If the list is full
             resize(size + 1);
@@ -46,24 +48,43 @@ public class ArrayDeque<Blom> {
     /** Resize the list if it's full. */
     public void resize(int size) {
         Blom[] newArray = (Blom []) new Object[size];
-        System.arraycopy(items, 0, newArray, 0, size - 1);
+        /** arraycopy is not good */
+        // System.arraycopy(items, 0, newArray, 0, size - 1);
+        /** If first element of array is the first element of deque. */
+        if (nextFirst == items.length - 1) {
+            for (int i = 0; i < items.length; i++) {
+                newArray[i] = items[i];
+            }
+        }
+        /** else */
+        else {
+            for (int i = 0; i < nextLast; i++) {
+                newArray[i] = items[i + nextLast];
+            }
+            for (int i = nextLast; i < items.length; i++){
+                newArray[i] = items[i - nextLast];
+            }
+        }
         items = newArray;
         nextFirst = items.length - 1;
-        nextLast = items.length - 1;
+        nextLast = size - 1;
     }
 
     /** Check whether the list is empty. */
+    @Override
     public boolean isEmpty() {
         if (size == 0)  return true;
         else    return false;
     }
 
     /** Get the size of the list. */
+    @Override
     public int size() {
         return size;
     }
 
     /** Print the list. */
+    @Override
     public void printDeque() {
         if(size == items.length) { // print starting from first of the list
             int count = size - 1;
@@ -97,40 +118,53 @@ public class ArrayDeque<Blom> {
     }
 
     /** Remove the first of the list. */
-    public void removeFirst() {
+    @Override
+    public Blom removeFirst() {
         if (nextFirst == items.length - 1) {
+            Blom n = items[0];
             System.out.println("Remove first of the list:" + items[0]);
             items[0] = null;
             nextFirst = 0;
             size --;
+            usageFactor();
+            return n;
         }
         else {
+            Blom n = items[nextFirst + 1];
             System.out.println("Remove first of the list:" + items[nextFirst + 1]);
             items[nextFirst + 1] = null;
             nextFirst ++;
             size --;
+            usageFactor();
+            return n;
         }
-        usageFactor();
     }
 
     /** Remove the back of the list. */
-    public void removeLast() {
+    @Override
+    public Blom removeLast() {
         if (nextLast == 0) {
+            Blom n = items[items.length - 1];
             System.out.println("Remove last of the list:" + items[items.length - 1]);
             items[items.length - 1] = null;
             nextLast = items.length - 1;
             size --;
+            usageFactor();
+            return n;
         }
         else {
+            Blom n = items[nextLast - 1];
             System.out.println("Remove last of the list:" + items[nextLast - 1]);
             items[nextLast - 1] = null;
             nextLast --;
             size --;
+            usageFactor();
+            return n;
         }
-        usageFactor();
     }
 
     /** Get the index item of the list. */
+    @Override
     public Blom get(int index) {
         return items[index];
     }
