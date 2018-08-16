@@ -1,5 +1,9 @@
 // TODO: Make sure to make this class a part of the synthesizer package
-//package <package name>;
+package synthesizer;
+
+import java.util.HashSet;
+import java.util.Random;
+import  java.util.*;
 
 //Make sure this class is public
 public class GuitarString {
@@ -8,6 +12,9 @@ public class GuitarString {
      * in lecture on Friday. */
     private static final int SR = 44100;      // Sampling Rate
     private static final double DECAY = .996; // energy decay factor
+
+    private static final long SEED = System.nanoTime();
+    private static final Random RANDOM = new Random(SEED);
 
     /* Buffer for storing sound data. */
     private BoundedQueue<Double> buffer;
@@ -18,6 +25,7 @@ public class GuitarString {
         //       cast the result of this divsion operation into an int. For better
         //       accuracy, use the Math.round() function before casting.
         //       Your buffer should be initially filled with zeros.
+        buffer = new ArrayRingBuffer<>((int) Math.round(SR / frequency));
     }
 
 
@@ -28,6 +36,25 @@ public class GuitarString {
         //       double r = Math.random() - 0.5;
         //
         //       Make sure that your random numbers are different from each other.
+        // Generate different random numbers
+        HashSet randomSet = new HashSet<Double>();
+        int count = 0;
+        while (count < buffer.capacity()) {
+            double randomnum = RANDOM.nextDouble() - 0.5;
+            if (!randomSet.contains(randomnum)) {
+                randomSet.add(randomnum);
+                count++;
+            }
+        }
+        // Deque the buffer
+        while (!buffer.isEmpty()) {
+            buffer.dequeue();
+        }
+        // Add random numbers to the buffer
+        Iterator it = randomSet.iterator();
+        while(it.hasNext()) {
+            buffer.enqueue((Double) it.next());
+        }
     }
 
     /* Advance the simulation one time step by performing one iteration of
@@ -37,11 +64,14 @@ public class GuitarString {
         // TODO: Dequeue the front sample and enqueue a new sample that is
         //       the average of the two multiplied by the DECAY factor.
         //       Do not call StdAudio.play().
+        double leastFirst = buffer.dequeue();
+        buffer.enqueue(.996 * 0.5 * (leastFirst + sample()));
     }
 
     /* Return the double at the front of the buffer. */
     public double sample() {
         // TODO: Return the correct thing.
-        return 0;
+        //System.out.print(buffer.peek());
+        return buffer.peek();
     }
 }
