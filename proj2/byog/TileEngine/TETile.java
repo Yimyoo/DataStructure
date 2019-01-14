@@ -18,10 +18,10 @@ import byog.Core.RandomUtils;
  * representation, so you are free to use image tiles on your own computer.
  *
  * The provided TETile is immutable, i.e. none of its instance variables can change. You are welcome
- * to make your TETile class mutable, if you prefer.
+ *  * to make your TETile class mutable, if you prefer.
  */
 
-public class TETile {
+public class TETile implements java.io.Serializable{
     private final char character; // Do not rename character or the autograder will break.
     private final Color textColor;
     private final Color backgroundColor;
@@ -175,7 +175,7 @@ public class TETile {
      * @param tiles the 2D array to copy
      **/
     public static TETile[][] copyOf(TETile[][] tiles) {
-        if (tiles == null) {
+            if (tiles == null) {
             return null;
         }
 

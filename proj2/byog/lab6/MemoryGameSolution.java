@@ -23,7 +23,6 @@ public class MemoryGameSolution {
             System.out.println("Please enter a seed");
             return;
         }
-
         long seed = Long.parseLong(args[0]);
         MemoryGameSolution game = new MemoryGameSolution(40, 40, seed);
         game.startGame();
@@ -39,7 +38,6 @@ public class MemoryGameSolution {
         StdDraw.setYscale(0, this.height);
         StdDraw.clear(Color.BLACK);
         StdDraw.enableDoubleBuffering();
-
         rand = new Random(seed);
     }
 

@@ -53,8 +53,8 @@ public class TERenderer {
      * you then subsequently call renderFrame with a TETile[50][25] array, it will
      * leave 10 tiles blank on the right side and 5 tiles blank on the top side. If
      * you want to leave extra space on the left or bottom instead, use the other
-     * initializatiom method.
-     * @param w width of the window in tiles
+     * initialization method.
+     * @param w width of the window in tiles.
      * @param h height of the window in tiles.
      */
     public void initialize(int w, int h) {
